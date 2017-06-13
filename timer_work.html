@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!--画面の大きさがデバイスに合わせて自在に変わるようにする--!>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+        <title>TimeKeeper</title>
+    </head>
+
+    <body>
+
+    <!--現在時刻をだす--!>
+    <p>
+    ■現在時刻は、<label id="RealtimeClock"></label>です。
+    </p>
+
+    <!--終了時刻をだす--!>
+    <p>
+    ■終了時刻は、<input type="text" value="18:00" size="10">です。
+    </p>
+
+    <!--残り時間をだす、ボタンも用意--!>
+    <p>
+    <form name="timer">
+    ■アジェンダの残り時間は、</br>
+    <input type="text" value="10" size="10">分
+    <input type="text" value="0" size="10">秒<br>
+    <input type="button" value="start" onclick="cntStart()">
+    <input type="button" value="stop" onclick="cntStop()">
+    <input type="button" value="reset" onclick="reSet()">
+    </form>
+
+    <!--時間になったらメッセージ表示--!>
+    <font color="red"><label id="AlertMessage"></label></font>
+    </p>
+
+    <!--本日のアジェンダやら書くテキストボックス--!>
+    <p>
+    <textarea name="freeans" rows="20" cols="30">本日のアジェンダ</textarea>
+    </p>
+
+
+        <!--ここからjavascript--!>
+        <script type="text/javascript">
+
+        // 時計を表示する関数
+        function showClock() {
+           var nowTime = new Date();
+           var nowHour = setfig( nowTime.getHours() );
+           var nowMin = setfig( nowTime.getMinutes() );
+           var nowSec = setfig( nowTime.getSeconds() );
+           var msg = nowHour + ":" + nowMin + ":" + nowSec;
+           document.getElementById("RealtimeClock").innerHTML = msg;
+        }
+        setInterval('showClock()',1000);
+
+        // 桁数が1桁だったら先頭に0を加えて2桁に調整する関数
+        function setfig(num) {
+           var ret;
+           if( num < 10 ) { ret = "0" + num; }
+           else { ret = num; }
+           return ret;
+        }
+
+        //タイマーを格納する変数（タイマーID）の宣言
+        var timer1;
+        
+        //カウントダウン関数を1000ミリ秒毎に呼び出す関数
+        function cntStart() {
+          document.timer.elements[2].disabled=true;
+          timer1=setInterval("countDown()",1000);
+        }
+        
+        //タイマー停止関数
+        function cntStop() {
+          document.timer.elements[2].disabled=false;
+          clearInterval(timer1);
+        }
+        
+        //カウントダウン関数
+        function countDown() {
+          var min=document.timer.elements[0].value;
+          var sec=document.timer.elements[1].value;
+          
+          if( (min=="") && (sec=="") ) {
+            var msg="時刻を設定してください！";
+            document.getElementById("AlertMessage").innerHTML = msg;
+            reSet();
+          } else {
+            if (min=="") min=0;
+            min=parseInt(min);
+            
+            if (sec=="") sec=0;
+            sec=parseInt(sec);
+            
+            tmWrite(min*60+sec-1);
+          }
+        }
+        
+        //残り時間を書き出す関数
+        function tmWrite(int) {
+          int=parseInt(int);
+          
+          if (int<=0)
+          {
+            reSet();
+            var msg="時間です！";
+            document.getElementById("AlertMessage").innerHTML = msg;
+          } else {
+            //残り分数はintを60で割って切り捨てる
+            document.timer.elements[0].value=Math.floor(int/60);
+            //残り秒数はintを60で割った余り
+            document.timer.elements[1].value=int % 60;
+          }
+        }
+        
+        //フォームを初期状態に戻す（リセット）関数
+        function reSet() {
+          var msg="";
+          document.getElementById("AlertMessage").innerHTML = msg;
+          document.timer.elements[0].value="10";
+          document.timer.elements[1].value="0";
+          document.timer.elements[2].disabled=false;
+          clearInterval(timer1);
+        }
+
+        </script>
+    </body>
+</html>
