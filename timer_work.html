@@ -65,22 +65,22 @@
            return ret;
         }
 
-        //タイマーを格納する変数（タイマーID）の宣言
+        // タイマーを格納する変数（タイマーID）の宣言
         var timer1;
         
-        //カウントダウン関数を1000ミリ秒毎に呼び出す関数
+        // カウントダウン関数を1000ミリ秒毎に呼び出す関数
         function cntStart() {
           document.timer.elements[2].disabled=true;
           timer1=setInterval("countDown()",1000);
         }
         
-        //タイマー停止関数
+        // タイマー停止関数
         function cntStop() {
           document.timer.elements[2].disabled=false;
           clearInterval(timer1);
         }
         
-        //カウントダウン関数
+        // カウントダウン関数
         function countDown() {
           var min=document.timer.elements[0].value;
           var sec=document.timer.elements[1].value;
@@ -100,7 +100,7 @@
           }
         }
         
-        //残り時間を書き出す関数
+        // 残り時間を書き出す関数
         function tmWrite(int) {
           int=parseInt(int);
           
@@ -108,16 +108,24 @@
           {
             reSet();
             var msg="時間です！";
+            //alert(msg)
             document.getElementById("AlertMessage").innerHTML = msg;
+            // 時間切れをタブに表示する
+            document.title  = msg
           } else {
-            //残り分数はintを60で割って切り捨てる
-            document.timer.elements[0].value=Math.floor(int/60);
-            //残り秒数はintを60で割った余り
-            document.timer.elements[1].value=int % 60;
+            // 残り分数はintを60で割って切り捨てる
+            rem_min=Math.floor(int/60);
+            // 残り秒数はintを60で割った余り
+            rem_sec=int % 60;
+            // 残り時間を表示
+            document.timer.elements[0].value=rem_min;
+            document.timer.elements[1].value=rem_sec;
+            // 残り時間をタブに表示する
+            document.title  = '残時間 ' + rem_min + ':' + rem_sec;
           }
         }
         
-        //フォームを初期状態に戻す（リセット）関数
+        // フォームを初期状態に戻す（リセット）関数
         function reSet() {
           var msg="";
           document.getElementById("AlertMessage").innerHTML = msg;
