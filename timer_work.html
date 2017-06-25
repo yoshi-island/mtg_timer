@@ -12,17 +12,17 @@
 
     <body>
 
-    <!--current time--!>
+    <!-- get current time --!>
     <p>
     current time is<label id="RealtimeClock"></label>
     </p>
 
-    <!--end time--!>
+    <!-- get end time --!>
     <p>
     end time is<input type="text"id="EndTime"  value="18:00" size="10">
     </p>
 
-    <!--get remain time and button--!>
+    <!-- get remain time and set buttons --!>
     <p>
     <form name="timer">
     remain time is</br>
@@ -33,17 +33,17 @@
     <input type="button" value="reset" onclick="reSet()">
     </form>
 
-    <!--get message--!>
+    <!-- get aleart message --!>
     <font color="red"><label id="AlertMessage"></label></font>
     </p>
 
-    <!--get textbox--!>
+    <!-- get textbox --!>
     <p>
     <textarea name="freeans" rows="20" cols="30">Today's Agenda</textarea>
     </p>
 
 
-        <!--javascript--!>
+        <!-- javascript --!>
         <script type="text/javascript">
 
         // display clock
@@ -57,7 +57,7 @@
         }
         setInterval('showClock()',1000);
 
-        // fix number of digits to two
+        // fix number of digits to two if its one
         function setfig(num) {
            var ret;
            if( num < 10 ) { ret = "0" + num; }
@@ -65,7 +65,7 @@
            return ret;
         }
 
-        // timer id
+        // set timer id
         var timer1;
         
         // get countdown timer for 1000msec
@@ -110,7 +110,7 @@
             var msg="it's time!";
             //alert(msg)
             document.getElementById("AlertMessage").innerHTML = msg;
-            // 時間切れをタブに表示する
+            // aleart tab if remain time is zero
             document.title  = msg
           } else {
             // get remain min
