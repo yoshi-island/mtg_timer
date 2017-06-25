@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <!--画面の大きさがデバイスに合わせて自在に変わるようにする--!>
+        <!--multi device--!>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
         <title>TimeKeeper</title>
@@ -12,41 +12,41 @@
 
     <body>
 
-    <!--現在時刻をだす--!>
+    <!--current time--!>
     <p>
-    ■現在時刻は、<label id="RealtimeClock"></label>です。
+    current time is<label id="RealtimeClock"></label>
     </p>
 
-    <!--終了時刻をだす--!>
+    <!--end time--!>
     <p>
-    ■終了時刻は、<input type="text" value="18:00" size="10">です。
+    end time is<input type="text"id="EndTime"  value="18:00" size="10">
     </p>
 
-    <!--残り時間をだす、ボタンも用意--!>
+    <!--get remain time and button--!>
     <p>
     <form name="timer">
-    ■アジェンダの残り時間は、</br>
-    <input type="text" value="10" size="10">分
-    <input type="text" value="0" size="10">秒<br>
+    remain time is</br>
+    <input type="text" value="10" size="10">min
+    <input type="text" value="0" size="10">sec<br>
     <input type="button" value="start" onclick="cntStart()">
     <input type="button" value="stop" onclick="cntStop()">
     <input type="button" value="reset" onclick="reSet()">
     </form>
 
-    <!--時間になったらメッセージ表示--!>
+    <!--get message--!>
     <font color="red"><label id="AlertMessage"></label></font>
     </p>
 
-    <!--本日のアジェンダやら書くテキストボックス--!>
+    <!--get textbox--!>
     <p>
-    <textarea name="freeans" rows="20" cols="30">本日のアジェンダ</textarea>
+    <textarea name="freeans" rows="20" cols="30">Today's Agenda</textarea>
     </p>
 
 
-        <!--ここからjavascript--!>
+        <!--javascript--!>
         <script type="text/javascript">
 
-        // 時計を表示する関数
+        // display clock
         function showClock() {
            var nowTime = new Date();
            var nowHour = setfig( nowTime.getHours() );
@@ -57,7 +57,7 @@
         }
         setInterval('showClock()',1000);
 
-        // 桁数が1桁だったら先頭に0を加えて2桁に調整する関数
+        // fix number of digits to two
         function setfig(num) {
            var ret;
            if( num < 10 ) { ret = "0" + num; }
@@ -65,28 +65,28 @@
            return ret;
         }
 
-        // タイマーを格納する変数（タイマーID）の宣言
+        // timer id
         var timer1;
         
-        // カウントダウン関数を1000ミリ秒毎に呼び出す関数
+        // get countdown timer for 1000msec
         function cntStart() {
           document.timer.elements[2].disabled=true;
           timer1=setInterval("countDown()",1000);
         }
         
-        // タイマー停止関数
+        // stop timer
         function cntStop() {
           document.timer.elements[2].disabled=false;
           clearInterval(timer1);
         }
         
-        // カウントダウン関数
+        // countdowm timer
         function countDown() {
           var min=document.timer.elements[0].value;
           var sec=document.timer.elements[1].value;
           
           if( (min=="") && (sec=="") ) {
-            var msg="時刻を設定してください！";
+            var msg="set time!";
             document.getElementById("AlertMessage").innerHTML = msg;
             reSet();
           } else {
@@ -100,32 +100,32 @@
           }
         }
         
-        // 残り時間を書き出す関数
+        // get remain time
         function tmWrite(int) {
           int=parseInt(int);
           
           if (int<=0)
           {
             reSet();
-            var msg="時間です！";
+            var msg="it's time!";
             //alert(msg)
             document.getElementById("AlertMessage").innerHTML = msg;
             // 時間切れをタブに表示する
             document.title  = msg
           } else {
-            // 残り分数はintを60で割って切り捨てる
+            // get remain min
             rem_min=Math.floor(int/60);
-            // 残り秒数はintを60で割った余り
+            // get remain sec
             rem_sec=int % 60;
-            // 残り時間を表示
+            // get remain time
             document.timer.elements[0].value=rem_min;
             document.timer.elements[1].value=rem_sec;
-            // 残り時間をタブに表示する
-            document.title  = '残時間 ' + rem_min + ':' + rem_sec;
+            // display remain time
+            document.title  = 'remain time is ' + rem_min + ':' + rem_sec;
           }
         }
         
-        // フォームを初期状態に戻す（リセット）関数
+        // reset form
         function reSet() {
           var msg="";
           document.getElementById("AlertMessage").innerHTML = msg;

@@ -1,1 +1,1 @@
-会議進行用のタイマーです
+timer for meeting
